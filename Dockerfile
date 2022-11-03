@@ -1,9 +1,9 @@
 FROM ubuntu:22.04
 
-RUN sudo apt update && sudo apt upgrade -y
+RUN apt update && apt -y upgrade
 
 # Install Essential Tools
-RUN sudo apt-get -y install build-essential zlib1g-dev libreadline-dev libssl-dev libcurl4-openssl-dev
+RUN apt -y install build-essential zlib1g-dev libreadline-dev libssl-dev libcurl4-openssl-dev curl libpq-dev git
 
 # Install Rbenv
 RUN curl -fsSL https://github.com/rbenv/rbenv-installer/raw/HEAD/bin/rbenv-installer | bash
@@ -11,15 +11,11 @@ RUN echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bashrc
 RUN echo 'eval "$(rbenv init - bash)"' >> ~/.bashrc
 
 # Install latest Ruby
-RUN rbenv install 3.1.2
-RUN rbenv global 3.1.2
+RUN ~/.rbenv/bin/rbenv install 3.1.2
+RUN ~/.rbenv/bin/rbenv global 3.1.2
 
-# Install NVM
+# Install NVM and Install Node 16
+SHELL ["/bin/bash", "--login", "-i", "-c"]
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.2/install.sh | bash
-RUN export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")" [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
-
-# Install Node and NVM 
-RUN nvm install 16
-RUN nvm use 16
-RUN npm install --global yarn
-
+RUN source /root/.bashrc && nvm install 16
+SHELL ["/bin/bash", "--login", "-c"]
