@@ -19,3 +19,15 @@ SHELL ["/bin/bash", "--login", "-i", "-c"]
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.2/install.sh | bash
 RUN source /root/.bashrc && nvm install 16
 SHELL ["/bin/bash", "--login", "-c"]
+
+COPY . .
+
+# Setting Git
+
+ARG git_email
+ARG git_name
+
+ENV git_email $git_email
+ENV git_name $git_name
+
+RUN chmod +x ./git.sh
