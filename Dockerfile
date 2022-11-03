@@ -1,4 +1,4 @@
-FROM ubuntu:22.04
+FROM docker/dev-environments-default:latest
 
 RUN apt update && apt -y upgrade
 
@@ -19,4 +19,3 @@ SHELL ["/bin/bash", "--login", "-i", "-c"]
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.2/install.sh | bash
 RUN source /root/.bashrc && nvm install 16
 SHELL ["/bin/bash", "--login", "-c"]
-
